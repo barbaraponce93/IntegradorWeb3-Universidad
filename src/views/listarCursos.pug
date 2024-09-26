@@ -1,0 +1,98 @@
+extends ./layout
+
+block contenido
+    .flex.justify-end.mb-4
+        
+    .py-10
+       
+        h2.text-4xl.my-10.font-extrabold.text-center Lista de Profesores
+      
+        table.table-auto.w-full.mt-4
+            thead
+                tr
+           
+                    th.text-left.text-gray-500.uppercase.px-6.py-3 Nombre
+                    th.text-left.text-gray-500.uppercase.px-6.py-3 Descripción
+                    th.text-left.text-gray-500.uppercase.px-6.py-3 Profesor
+                   
+            tbody
+                each curso in cursos
+                    tr(class="selectable" data-id=`${curso.id}`)
+                        td.px-6.py-4= curso.nombre
+                        td.px-6.py-4= curso.descripcion
+                        td.px-6.py-4
+                             if curso.profesor
+                                  | Id: #{curso.profesor.id} - #{curso.profesor.nombre} #{curso.profesor.apellido}
+
+                             else
+                                 | Sin profesor asignado
+                     
+                       
+            div.botones
+                button#editarCurso.bg-blue-500.text-white.py-2.px-4.rounded.disabled(opacity="0.5" disabled ) Editar
+                button#eliminarCurso.bg-red-500.text-white.py-2.px-4.ml-2.rounded.disabled(opacity="0.5" disabled) Eliminar
+                button#agregarBtn.bg-red-500.text-white.font-bold.py-2.px-4.rounded.cursor-not-allowed.opacity-50( onclick="window.location.href='/cursos/crearCurso'" ) Agregar Curso
+         
+                         
+block scripts
+    script.
+          let selectedId = null;
+
+ 
+        function inicializarBotones() {
+            document.getElementById('editarCurso').disabled = true;
+            document.getElementById('editarCurso').style.opacity = 0.5;
+
+            document.getElementById('eliminarCurso').disabled = true;
+            document.getElementById('eliminarCurso').style.opacity = 0.5;
+        }
+
+        inicializarBotones();
+
+            document.querySelectorAll('.selectable').forEach(row => {
+                row.addEventListener('click', function() {
+                    document.querySelectorAll('.selectable').forEach(r => r.classList.remove('selected-row'));
+                    this.classList.add('selected-row');
+                
+                    selectedId = this.getAttribute('data-id');
+                
+             
+                    document.getElementById('editarCurso').disabled = false;
+                    document.getElementById('editarCurso').style.opacity = 1;
+                    
+                    document.getElementById('eliminarCurso').disabled = false;
+                    document.getElementById('eliminarCurso').style.opacity = 1;
+            });
+        });
+
+                  document.getElementById('editarCurso').addEventListener('click', function() {
+            if (selectedId) {
+                window.location.href = `/cursos/modificarCurso/${selectedId}`;
+                
+            }
+        });
+
+
+        
+        document.getElementById('eliminarCurso').addEventListener('click', function() {
+            if (selectedId && confirm('¿Estás seguro de que deseas eliminar este Curso?')) {
+                fetch(`/cursos/${selectedId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.mensaje === 'Curso eliminado') {
+                        alert('Curso eliminado con éxito.');
+                        window.location.reload(); 
+                    } else {
+                        alert('El curso seleccionado tiene un profesor asociado'); 
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al eliminar el Curso.');
+                });
+            }
+        });
+
+

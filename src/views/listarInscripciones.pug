@@ -1,0 +1,60 @@
+extends ./layout
+
+block contenido
+    .flex.justify-end.mb-4
+       
+
+    .py-10
+       
+        h2.text-center.text-2xl.font-extrabold= pagina
+        
+
+
+
+        div.botonesFiltro
+            h4.text-4xl.my-10.font-extrabold.text-center Busqueda:
+            form.filtro(method="GET"  action="#" class="w-full max-w-lg")
+                .flex.flex-col.items-center
+                    input(type="text" name="nombre" placeholder="nombre" class="px-4 py-2 border rounded-md w-3/4")
+                    button(type="submit"  id="buscarCurso" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md") Inscripciones por Curso
+        
+            form.filtro(method="GET" action="#" class="w-full max-w-lg")
+                .flex.flex-col.items-center
+                    input(type="text" name="dni_estudiante" placeholder="DNI del Estudiante" class="px-4 py-2 border rounded-md w-3/4")
+                    button(type="button" id="buscarAlumno" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md") Inscripciones por Alumno
+
+        // Tabla de inscripciones
+        table.table-auto.w-full.mt-4
+            thead
+                tr
+                    th.text-left.text-gray-500.uppercase.px-6.py-3 Estudiante
+                    th.text-left.text-gray-500.uppercase.px-6.py-3 Curso
+                    th.text-left.text-gray-500.uppercase.px-6.py-3 Fecha Inscripción
+                    th.text-left.text-gray-500.uppercase.px-6.py-3 Nota
+                    th.text-left.text-gray-500.uppercase.px-6.py-3 Seleccionar Inscripción
+            tbody#tablaInscripciones
+                each inscripcion in inscripciones
+                    tr(data-id=inscripcion.id class="cursor-pointer hover:bg-gray-200")
+                        td.px-6.py-4= `${inscripcion.estudiante.nombre} ${inscripcion.estudiante.apellido}`
+                        td.px-6.py-4= inscripcion.curso.nombre
+                        td.px-6.py-4
+                            if inscripcion.fecha
+                                = new Date(inscripcion.fecha).toDateString()
+                            else
+                                | Fecha no disponible
+                        td.px-6.py-4
+                            input(type="number" name="nota" value=inscripcion.nota !== null ? inscripcion.nota : '' disabled min="0" max="10" class="notaInput shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline")
+                        td.px-6.py-4
+                            input(type="radio" name="seleccion" value=`${inscripcion.estudiante.id}-${inscripcion.curso.id}` class="seleccionInscripcion")
+
+        
+            div.botones
+                button#eliminar(type="button" disabled class="bg-gray-400 text-white font-bold py-2 px-4 rounded mr-4") Eliminar 
+                button#calificar(type="button" disabled class="bg-gray-400 text-white font-bold py-2 px-4 rounded") Calificar
+                button#agregarBtn.bg-red-500.text-white.font-bold.py-2.px-4.rounded.cursor-not-allowed.opacity-50( onclick="window.location.href='/inscripciones/crearInscripcion'" ) Inscribir
+
+block scripts
+
+  script(src="/js/scriptInscripciones.js")
+
+

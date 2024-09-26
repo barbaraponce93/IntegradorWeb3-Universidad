@@ -1,0 +1,5 @@
+.selected-row {
+    background-color: #e0e0e0;
+    font-weight: bold;
+    border: 2px solid #007bff;
+  }

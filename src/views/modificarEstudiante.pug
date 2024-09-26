@@ -1,0 +1,37 @@
+extends ./layout 
+
+block contenido
+    .contenedor
+        
+
+        if errores
+            div.error-message
+                each error in errores
+                    p= error.msg
+
+        .mt-8.mx-auto.max-w-md
+            .bg-white.py-8.px-4.shadow
+                form#form(method='POST' action=`/estudiantes/${estudiante.id}?_method=PUT` noValidate )
+
+                    div.inputControl
+                        label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="dni") DNI
+                        input#dni.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="DNI" type="text" name="dni" value=estudiante.dni)
+                        
+
+                    div.inputControl
+                        label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="nombre") Nombre
+                        input#nombre.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Nombre" type="text" name="nombre" value=estudiante.nombre)
+                        
+
+                    div.inputControl
+                        label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="apellido") Apellido
+                        input#apellido.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Apellido" type="text" name="apellido" value=estudiante.apellido)
+                        
+
+                    div.inputControl
+                        label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="email") Email
+                        input#email.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Email" type="text" name="email" value=estudiante.email)
+                        
+
+                    button.bg-blue-500.text-white.px-4.py-2.rounded-md.mt-4(type='submit') Modificar Estudiante
+

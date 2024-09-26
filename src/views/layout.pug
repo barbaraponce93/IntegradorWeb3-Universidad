@@ -1,0 +1,25 @@
+doctype html
+html(lang="es")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Proyecto Universidad | #{pagina}
+        link(rel="stylesheet", href="/css/app.css")
+    body.min-h-screen
+        nav.navegador
+            .container.mx-auto.px-4
+                .flex.justify-between.items-center.h-16
+                    a.text-xl.font-bold.text-gray-800(href="/") Universidad Gaston Dachary
+                    ul.flex.space-x-4
+                        li
+                            a(href="/estudiantes/listarEstudiantes" class="text-gray-600 ") Lista de Estudiantes
+                        li
+                            a(href="/profesores/listarProfesores" class="text-gray-600 ") Lista de Profesores
+                        li
+                            a(href="/cursos/listarCursos" class="text-gray-600 ") Listar de Cursos
+                        li
+                            a(href="/inscripciones/listarInscripciones" class="text-gray-600 ") Lista de Inscripciones
+        main(class="mainlayaout")
+            block contenido
+            block scripts
+

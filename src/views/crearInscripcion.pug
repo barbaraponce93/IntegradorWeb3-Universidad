@@ -1,0 +1,34 @@
+extends ./layout
+
+block contenido
+    .contenedor
+        
+
+        if errores
+            div.error-message
+                each error in errores
+                    p.bg-red-600.text-white.uppercase.text-xs.text-center.p-2.mb-1.font-bold= error.msg
+
+        .mt-8.mx-auto.max-w-md
+            .bg-white.py-8.px-4.shadow
+                form.space-y-5(method='POST' action='/inscripciones' noValidate)
+                  
+                    
+                    div.inputControl
+                        label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="dni") DNI del Estudiante
+                        input#estudiante(placeholder="dni de estudiante" type="text" name="dni" value=inscripcion? inscripcion.estudiante.dni : '')
+
+                    div.inputControl
+                        label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="curso_id") Id del curso
+                        input#curso.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Id del curso" type="number" name="curso_id" value=inscripcion? inscripcion.curso.id : '')
+                    
+                    div.inputControl
+                        label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="fecha") Fecha
+                        input#fecha.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Fecha" type="fate" name="fecha" value=inscripcion? inscripcion.fecha : '')
+                    
+                    div.inputControl
+                        label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="nota") Nota
+                        input#nota.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Nota" type="number" name="nota" value=inscripcion? inscripcion.nota : '')
+                    
+               
+                    button.bg-blue-500.text-white.px-4.py-2.rounded-md.mt-4(type='submit') Guardar Inscripción
